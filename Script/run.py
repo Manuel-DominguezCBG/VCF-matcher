@@ -9,7 +9,7 @@ Created on 09/12/2014
 
 # Import libraries 
 import argparse
-import pandas as pd
+import pandas as pd                      # pip install dash
 import os
 import subprocess
 import numpy as np
@@ -43,8 +43,9 @@ from dash.dependencies import Input, Output, State
 
 ## Delete this when finished
 #Name_file1 = "/Users/monkiky/Desktop/Do-these-samples-belong-to-the-same-patient/Samples/W2008872_S8-J4PJL_copy.vcf"
-Name_file1 = "/Users/monkiky/Desktop/Do-these-samples-belong-to-the-same-patient/Samples/G369884060.vcf"
-Name_file2 = "/Users/monkiky/Desktop/Do-these-samples-belong-to-the-same-patient/Samples/W2110682_S9.vcf"
+Name_file1 = "/Users/monkiky/Desktop/VCF-matcher/Samples/W2008872_S8-J4PJL.vcf"
+#Name_file1 = "/Users/monkiky/Desktop/Do-these-samples-belong-to-the-same-patient/Samples/W2103014_S10-JGFJG.vcf"
+Name_file2 = "/Users/monkiky/Desktop/VCF-matcher/Samples/Myeloid_1.2/210513_M00321_0553_000000000-JK4CY_Filtered_Annotated.vcf"
 
 
 ### 1. Remove the header of input files
@@ -83,33 +84,55 @@ else:
     print('File', os.path.basename(Name_file2), 'contains one sample only.')
     Name_sample2 = dataB.columns.tolist()[9]
 
-### 2. Filter the variants  FILTER = PASS and Variant Frecuency =>0.4
+    ### 2. Filter the variants  FILTER = PASS and Variant Frecuency =>0.4
 
 # VF is in the 9th column, we need to extract and put VF data in an independent column first
 df2 = dataA[Name_sample1].str.split(':', expand=True)
+
+df2 = df2.fillna(value=np.nan)
+df2 = df2.dropna(axis=1, how='any')
+
 df2.columns = dataA.FORMAT.iloc[0].split(':')
 dataA = pd.concat([dataA, df2], axis=1)
 
+#df2.columns[df2.columns.str.contains(pat = 'VF')] 
+
 
 # Same for dataB
-df2 = dataB[Name_sample2].str.split(':', expand=True)
-df2.columns = dataB.FORMAT.iloc[0].split(':')
-dataB = pd.concat([dataB, df2], axis=1)
+df3 = dataB[Name_sample2].str.split(':', expand=True)
 
-# object to float
-dataA["VF"] = dataA.VF.astype(float)
-dataB["VF"] = dataB.VF.astype(float)
+df3 = df3.fillna(value=np.nan) # Sometimes empty columns are created giving an error as there is more columns than columns names
+df3 = df3.dropna(axis=1, how='any') # This delete the empty columns
 
+df3.columns = dataB.FORMAT.iloc[0].split(':')
+dataB = pd.concat([dataB, df3], axis=1)
 
-# ok, now we can filter and take the variant we are interested 
-dataA = dataA.query('FILTER == "PASS" and VF > 0.4')
-dataB = dataB.query('FILTER == "PASS" and VF > 0.4')
+# Now, let´s filter the variant
+# We dont want variants that doesnt pass the Filter status
+# This field is mandatory, no condition is needed because it is applied to any type of VCF file.
+dataA = dataA.query('FILTER == "PASS"')
+dataB = dataB.query('FILTER == "PASS"')
+                    
+# Now, I apply Variant frecuency (VF) filter (non-mandatory field)
+
+# If there is a VF Genotype fields in the file
+# Take the variants that are > 0.4
+if "VF" in dataA.columns:
+    dataA["VF"] = dataA["VF"].astype(float)
+    dataA = dataA.query('VF > 0.4')
+    
+if "VF" in dataB.columns:
+    dataB["VF"] = dataB["VF"].astype(float)
+    dataB = dataB.query('VF > 0.4')
+    
 
 ### 3. Let's create the Ben's Code, this is CHROM+POS+REF+ALT
 
 dataA['CHROMPOSREDALT']=dataA["#CHROM"].apply(str)+"."+dataA["POS"].apply(str)+dataA["REF"]+"."+dataA["ALT"]
 
 dataB['CHROMPOSREDALT']=dataB["#CHROM"].apply(str)+"."+dataB["POS"].apply(str)+dataB["REF"]+"."+dataB["ALT"]
+
+
 
 ### 4. Take common Ben's Codes in the same column and put the GT of each (both  copies) in independent columns
 df3 = dataA[['CHROMPOSREDALT', 'GT']].copy()
@@ -118,12 +141,10 @@ frames = [df3,df4]
 semi_final_df = pd.concat(frames)
 
 
-
 final_df=(semi_final_df.assign(key=semi_final_df.groupby('CHROMPOSREDALT').cumcount())
       .pivot('CHROMPOSREDALT','key','GT')
       .rename(columns=lambda x:f"Sample{x+1}")
       .rename_axis(columns=None).reset_index())
-
 
 ### 5. See how many GT match
 final_df["Matches"] = np.where(final_df["Sample1"] == final_df["Sample2"], True, False)
@@ -162,11 +183,6 @@ Percentage in common: {4}/{6}= {7}
  ____________________________ END REPORT  _______________________________________
 '''
 print(report.format(r0,r1,r2,r3,r4,r5,r6,r7))
-
-
-
-print(final_df)
-
 
 
 # draft

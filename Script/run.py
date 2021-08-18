@@ -43,9 +43,9 @@ from dash.dependencies import Input, Output, State
 
 ## Delete this when finished
 #Name_file1 = "/Users/monkiky/Desktop/Do-these-samples-belong-to-the-same-patient/Samples/W2008872_S8-J4PJL_copy.vcf"
-Name_file1 = "/Users/monkiky/Desktop/VCF-matcher/Samples/W2008872_S8-J4PJL.vcf"
+Name_file1 = "//Users/monkiky/Desktop/VCF-matcher/Samples/Myeloid_1.2/M1.vcf"
 #Name_file1 = "/Users/monkiky/Desktop/Do-these-samples-belong-to-the-same-patient/Samples/W2103014_S10-JGFJG.vcf"
-Name_file2 = "/Users/monkiky/Desktop/VCF-matcher/Samples/Myeloid_1.2/210513_M00321_0553_000000000-JK4CY_Filtered_Annotated.vcf"
+Name_file2 = "/Users/monkiky/Desktop/VCF-matcher/Samples/Myeloid_1.2/M1.vcf"
 
 
 ### 1. Remove the header of input files
@@ -147,23 +147,45 @@ final_df=(semi_final_df.assign(key=semi_final_df.groupby('CHROMPOSREDALT').cumco
       .rename_axis(columns=None).reset_index())
 
 ### 5. See how many GT match
-final_df["Matches"] = np.where(final_df["Sample1"] == final_df["Sample2"], True, False)
-final_df.columns = ['CHROM.POS.REF.ALT',os.path.basename(Name_file1),os.path.basename(Name_file2),"Matches" ]
+
+# Variables needed for both type of reports
+
+r0 = os.path.basename(Name_file1) # Get the  file name of a path/file_name 
+r1 = Name_sample1                 # Get the name of the sample 1
+r2 = os.path.basename(Name_file2)
+r3 = Name_sample2
+
+if "Sample2" not in final_df.columns:
+    # If Sample2 is not in final_df, that means there is not common position between the samples.
+    report0 = '''
+ _____________________________  REPORT  ________________________________________ 
+
+vcf 1: {0}  AND its sample name: {1}  
+vcf 2:  {2}  AND its sample name: {3}
+
+   No common positions found between samples
+
+ ____________________________ END REPORT  _______________________________________
+'''
+    print(report0.format(r0,r1,r2,r3,))
+
+else:    
+    # else match common position and carry on the report.
+    final_df["Matches"] = np.where(final_df["Sample1"] == final_df["Sample2"], True, False)
+    final_df.columns = ['CHROM.POS.REF.ALT',os.path.basename(Name_file1),os.path.basename(Name_file2),"Matches" ]
+
 
 
 ### 6.1 Generate results in the terminal
 
-# Variable to introduce in the report:
-r0 = os.path.basename(Name_file1) # Get the  file name of a path/file_name 
-r1 = Name_sample1
-r2 = os.path.basename(Name_file2)
-r3 = Name_sample2
-r4 = final_df['Matches'].value_counts().get(True, 0) # Count trues if any, retunr 0
-r5 = final_df['Matches'].value_counts().get(False, 0)
-r6 = len(final_df)
-r7 = r4/(r4+r5)
-r6 == r4+r5
-report = '''
+# Variable to introduce in the report :
+    
+    r4 = final_df['Matches'].value_counts().get(True, 0) # Count trues if any, retunr 0
+    r5 = final_df['Matches'].value_counts().get(False, 0)
+    r6 = len(final_df)
+    r7 = r4/(r4+r5)
+    r6 == r4+r5
+    report = '''
  _____________________________  REPORT  ________________________________________ 
 
 vcf 1: {0}  AND its sample name: {1}  
@@ -182,7 +204,7 @@ Total positions compared: {6}
 Percentage in common: {4}/{6}= {7}
  ____________________________ END REPORT  _______________________________________
 '''
-print(report.format(r0,r1,r2,r3,r4,r5,r6,r7))
+    print(report.format(r0,r1,r2,r3,r4,r5,r6,r7))
 
 
 # draft

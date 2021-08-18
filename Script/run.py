@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
-Created on 09/12/2014
+Created on 
 
 @author: manuel.dominguezbecerra@nhs.net
 
@@ -8,7 +8,7 @@ Created on 09/12/2014
 
 
 # Import libraries 
-import argparse
+import argparse                          # pip install argparse
 import pandas as pd                      # pip install dash
 import os
 import subprocess
@@ -195,9 +195,9 @@ vcf 2:  {2}  AND its sample name: {3}
 Number of positions with the same genotype: {4} 
                                                   Heterozigous:
                                                 
-                                                  Homozigous:
+                                                  
 Number of positions with diferent genotype: {5} 
-                                                  Heterozigous: 
+                                                  
 
 
 Total positions compared: {6}

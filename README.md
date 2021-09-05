@@ -4,7 +4,7 @@ Determine if two VCF files came from the same biological source or patient by co
 
 ## Introduction
 
-In facilities that manage high sample throughput (E.g. in a clinical genomics lab) sample mix-up or mislabelling is a common problem ( Koboldt et al. , 2010; Grimm et al. , 2010 ). This can lead to incorrect data processing and analysis which conflicting results and error conclusions/reports can have a huge negative impact in the care provided for the clinical genomics lab when I am working now.
+In facilities that manage high sample throughput (E.g. in a clinical genomics lab) sample mix-up or mislabelling is a common problem ( Koboldt et al. , 2010; Grimm et al. , 2010 ). This can lead to incorrect data processing and analysis which conflicting results and error conclusions/reports might have a huge negative impact in the diagnostic provided for the clinical genomics lab in which I am working now.
 
 In one of the discussions carried out with my supervisor, he showed me an approach of determining manually whether two Variant Call Format (VCF) files represent samples from the same biological source by comparing their genotypes. Following this method, I propose here a script of Python that performs exactly the same, it provides a rapid pair-wise comparison of two VCF files.
 
@@ -17,9 +17,10 @@ This program is a Python command-line tool (Python v3.9) for Linux operating sys
 - os
 - numpy
 
-For installation, I suggest cloning this repository to your machine and set up a virtual environment so that it doesn't mess up any other python installation you've got. This is very simple to do by following the instructions [here](https://docs.python.org/3/tutorial/venv.html).
+For installation, I suggest cloning this repository to your machine and set up a virtual environment so that it doesn't mess up any other python installation you've got. This is very simple to do by following the instructions [here](https://docs.python.org/3/tutorial/venv.html). A very condensed version:
 
 0. In a folder, e.g.  `/home/Name/NGS` 
+
 1. Create the environment with a command like this:  
     `python3 -m venv VCF-matcher`
 Or using Conda:

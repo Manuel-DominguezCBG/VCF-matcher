@@ -1,0 +1,26 @@
+##fileformat=VCFv4.1
+##FORMAT=<ID=GQX,Number=1,Type=Integer,Description="Minimum of {Genotype quality assuming variant position,Genotype quality assuming non-variant position}">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=GQ,Number=1,Type=Integer,Description="Genotype Quality">
+##FORMAT=<ID=AD,Number=.,Type=Integer,Description="Allele Depth">
+##FORMAT=<ID=VF,Number=1,Type=Float,Description="Variant Frequency">
+##FORMAT=<ID=NL,Number=1,Type=Integer,Description="Applied BaseCall Noise Level">
+##FORMAT=<ID=SB,Number=1,Type=Float,Description="StrandBias Score">
+##INFO=<ID=TI,Number=.,Type=String,Description="Transcript ID">
+##INFO=<ID=GI,Number=.,Type=String,Description="Gene ID">
+##INFO=<ID=EXON,Number=0,Type=Flag,Description="Exon Region">
+##INFO=<ID=FC,Number=.,Type=String,Description="Functional Consequence">
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">
+##FILTER=<ID=LowVariantFreq,Description="Low variant frequency < 0.01">
+##FILTER=<ID=LowGQ,Description="GQ below < 20.00">
+##FILTER=<ID=R8,Description="IndelRepeatLength is greater than 8">
+##FILTER=<ID=LowDP,Description="Low coverage (DP tag), therefore no genotype called">
+##FILTER=<ID=SB,Description="Variant strand bias too high">
+##annotator=MARS
+##fileDate=20200129
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	W000000001
+chr1	36932122	.	T	G	74.00	PASS	DP=315;TI=NM_172313,NM_156039,NM_000760;GI=CSF3R,CSF3R,CSF3R;FC=Silent,Missense_S810R,Missense_S783R;EXON	GT:GQ:AD:VF:NL:SB:GQX	0/1:74:297,17:9:20:-0.3595:74
+chr1	36933569	.	A	G	37.00	PASS	DP=966;TI=NM_172313,NM_156039,NM_000760;GI=CSF3R,CSF3R,CSF3R;FC=Silent,Silent,Silent	GT:GQ:AD:VF:NL:SB:GQX	1/1:37:942,23:0.9:20:0.0000:37
+chr1	36933574	.	T	GG	100.00	PASS	DP=1007;TI=NM_172313,NM_156039,NM_000760;GI=CSF3R,CSF3R,CSF3R;FC=Silent,Silent,Silent	GT:GQ:AD:VF:NL:SB:GQX	0/1:100:956,40:0.9:20:-0.0003:100
+
+

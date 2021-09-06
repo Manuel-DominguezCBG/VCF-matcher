@@ -1,21 +1,20 @@
 #!/usr/bin/env python
 '''
-
 Created on 
 
 @author: manuel.dominguezbecerra@nhs.net
 
 '''
 
+import time
+
+start = time.time()
 
 # Import libraries 
 import argparse                          # pip install argparse
-import pandas as pd                      # pip install dash
+import pandas as pd                      
 import os
 import numpy as np
-
-
-
 
 # To allow the user to introduce the file after running "python run.ppy"
 
@@ -27,9 +26,9 @@ import numpy as np
 # To do this in a easy way, I directly introduce here the path/file_name in a variable
 # As it can be seen below
 
-Name_file1 = "/Users/monkiky/Desktop/VCF-matcher/Samples/Same_patients/1/W2103070_S8.vcf"
+Name_file1 = "/Users/monkiky/Desktop/VCF-matcher/Samples/Same_patients/2/W2013397_S6.vcf"
 
-Name_file2 = "/Users/monkiky/Desktop/VCF-matcher/Samples/Same_patients/1/W1815770_S16.vcf"
+Name_file2 = "/Users/monkiky/Desktop/VCF-matcher/Samples/Same_patients/2/W2103016_S15.vcf"
 
 # In the script, the previous two lines doesn´t appear and the following lines are incommeneted
 
@@ -145,13 +144,13 @@ if "VF" in dataB.columns:
 
 # Two variants are the same if  CHROM, POS, REF, ALT and GT are equal
 
-dataA['CHROMPOSREDALT']= dataA["CHROM"].apply(str)+"."+dataA["POS"].apply(str)+dataA["REF"]+"."+dataA["ALT"]
+dataA['CHROMPOSREFALT']= dataA["CHROM"].apply(str)+"."+dataA["POS"].apply(str)+dataA["REF"]+"."+dataA["ALT"]
 
-dataB['CHROMPOSREDALT']= dataB["CHROM"].apply(str)+"."+dataB["POS"].apply(str)+dataB["REF"]+"."+dataB["ALT"]
+dataB['CHROMPOSREFALT']= dataB["CHROM"].apply(str)+"."+dataB["POS"].apply(str)+dataB["REF"]+"."+dataB["ALT"]
 
 
-df3 = dataA[['CHROMPOSREDALT', 'GT']].copy()
-df4 = dataB[['CHROMPOSREDALT', 'GT']].copy()
+df3 = dataA[['CHROMPOSREFALT', 'GT']].copy()
+df4 = dataB[['CHROMPOSREFALT', 'GT']].copy()
 frames = [df3,df4]
 semi_final_df = pd.concat(frames)
 # semi_final_df saves the CHROM, POS, REF, ALT in the first column and the GT in the second column
@@ -159,7 +158,7 @@ semi_final_df = pd.concat(frames)
 
 #Example:
 '''
-CHROMPOSREDALT     GT
+CHROMPOSREFALT     GT
 
 chr1.123456T.C     0/1       From sample 1
 chr2.123456A.C     1/1       From sample 1
@@ -169,8 +168,8 @@ chr1.123456T.C     0/1       From sample 2
 
 
 # Let´s reduce the number of rows
-final_df=(semi_final_df.assign(key=semi_final_df.groupby('CHROMPOSREDALT').cumcount())
-      .pivot('CHROMPOSREDALT','key','GT')
+final_df=(semi_final_df.assign(key=semi_final_df.groupby('CHROMPOSREFALT').cumcount())
+      .pivot('CHROMPOSREFALT','key','GT')
       .rename(columns=lambda x:f"Sample{x+1}")
       .rename_axis(columns=None).reset_index())
 
@@ -207,16 +206,16 @@ vcf 2:  {2}  AND its sample name: {3}
 else:    
     # else match common position and carry on the report.
     final_df["Matches"] = np.where(final_df["Sample1"] == final_df["Sample2"], True, False)
-    final_df.columns = ['CHROM.POS.REF.ALT',os.path.basename(Name_file1),os.path.basename(Name_file2),"Matches" ]
+    final_df.columns = ['CHROMPOSREFALT',os.path.basename(Name_file1),os.path.basename(Name_file2),"Matches" ]
 
     # 6.  To get hom and het 
 
     final_df['Genotype1'] = final_df.iloc[:,2].apply(lambda x: x.split('/' or '|')[0])
     final_df['Genotype2'] = final_df.iloc[:,2].apply(lambda x: x.split('/' or '|')[1])
     
-    final_df['final_match'] = np.select([final_df['Matches'] & final_df['Genotype1'].eq(final_df['Genotype2']),
+    final_df['Hom/het'] = np.select([final_df['Matches'] & final_df['Genotype1'].eq(final_df['Genotype2']),
                        final_df['Matches'] & final_df['Genotype1'].ne(final_df['Genotype2'])],
-                       choicelist=[True, False],
+                       choicelist=["Hom", "Het"],
                        default=pd.NA)
 
    ### 6. Generate results in the terminal
@@ -224,8 +223,8 @@ else:
 # Variable to introduce in the report :
     
     r4 = final_df['Matches'].value_counts().get(True, 0) # Count trues if any, retunr 0
-    r5 = final_df['final_match'].value_counts().get(True, 0)
-    r6 =final_df['final_match'].value_counts().get(False, 0)
+    r5 = final_df['Hom/het'].value_counts().get("Hom", 0)
+    r6 =final_df['Hom/het'].value_counts().get("Het", 0)
     r7 = final_df['Matches'].value_counts().get(False, 0)
     r8 = len(final_df)
     r9 = r4/(r4+r7)
@@ -251,3 +250,36 @@ Percentage in common: {4}/{8}= {9}
 '''
     print(report.format(r0,r1,r2,r3,r4,r5,r6,r7,r8,r9))
     
+
+end = time.time()
+print(end - start)
+    # ========== Results ================== #
+
+# To store results in lists and then in df
+
+# To create the list the first iteration
+#sampleA = ["hola"]
+#sampleB = ["hola"]
+#Total_positions_comp = ["hola"]
+#Pos_same_genotype = ["hola"]
+#Pos_different_genotyope = ["hola"]
+#Hom = ["hola"]
+#Het = ["hola"]
+
+#sampleA.append(r1)
+#sampleB.append(r3)
+#Total_positions_comp.append(r8)
+#Pos_same_genotype.append(r4)
+#Pos_different_genotyope.append(r7)
+#Hom.append(r5)
+#Het.append(r6)    
+
+
+
+# draft
+
+#(semi_final_df.pivot_table(index = ['CHROMPOSREDALT'], aggfunc ='size')==2).value_counts()[1] # position same genotipe
+#position_same_genotype = (semi_final_df.pivot_table(index = ['CHROMPOSREDALT'], aggfunc ='size')==2).value_counts()[1]
+#total_hom = semi_final_df[semi_final_df.GT == '1/1'].shape[0]
+#total_het = semi_final_df[semi_final_df.GT != '1/1'].shape[0]
+#final_df = final_df.astype(str)

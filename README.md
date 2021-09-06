@@ -43,50 +43,31 @@ This activates the virtual environment. You will need to do it every time you wa
     `python run.py --vcf1 Path/file_name_of_sample1 --vcf2 Path/file_name_of_sample2`
 
 
-## Methodology and results
+## Functional/non-functional requirements
 
-Detailed explanations of the steps of the script is provided in the code. In general, what the program does is a 
+Detailed explanations is provided in the code. In the next 2 UML diagrams is in general the process.
 
-1. Filter the variants based on some criteria (explained in the code).
-2. Count the number of variants and compare how many are identical (position, alteration, reference and genotype).
+Diagram 1
 
-The idea behind this script is that samples belonging to the same patient will present in both samples a high number of equal variants. On the other hand, samples from different patients should show fewer equal variants. This has been seen in a small experiment with samples from the same and different biological sources. This is explained in the next section.
+1. 2 VCF files as input
+2. Programm takes the body of the files (ignores meta-data lines) and check the number columns. The body of a VCF (Version 4.2) is formed by the next mandatory columns: CHROM, POS, ID, REF, ALT, QUAL, FILTER, INFO and FORMAT. Then, it is followed by the data of the samples. More than 10 columns means that there are more than 1 sample so the program ask the user to select the desirable sample. 10 columns means that it is a one-sample VCF.
+3. Creates 2 data frames (one per sample) with the data we need.
+4. Variant filtering. A couple of filters to ignore somactics variants or variants with low quality.
 
-After running the script, two type of report can be found.
+Diagram 2 
 
-1. If there is at least one common variant (equal position,reference and alteration), the script should show something like this:
+5. Generate a unit identifier. This is the concatenation of chromosome, position, reference and alteration alleles. It also takes the genotypes (GT) values.
+6. Merge both data frames and count common variants (variants that have the same unit identifier). Count the number of variants with equal unit identifier and GT. Finally, count the number of heterozigous and homozigous common variants.
+7. Generate the report. The different type of reports are explain below.
 
-```
-File W1815770_S16.vcf contains one sample only.
-File W1815770_S16.vcf contains one sample only.
 
- _____________________________  REPORT  ________________________________________ 
+Every report starts with two lines informing the name of the VCF files and the samples.
 
-vcf 1:   AND its sample name: 
-vcf 2:   AND its sample name: 
+After this, the number of positions with the same genotype ( unit of identifier and GT) and the number of homozygous and heterozygous. Then, the sample of positions with a different genotype. Finally, the proportion of variants that match. 
 
-                                                  Homozigous:  
-Number of positions with the same genotype:  
-                                                  Heterozigous: 
-                                                
-Number of positions with different genotype:  
-                                                  
-Total positions compared: 
-Percentage in common: 
-
- ____________________________ END REPORT  _______________________________________
-```
-
-The first two lines inform the number of samples found in each file. If more than the sample, the program asks the user to select the name of the desired sample to compare.
-
-Then in the report, it begins with the name of the file and the sample selected. After this, the number of positions with the same genotype in both samples and the number of homozygous and heterozygous. Then, the sample of positions with a different genotype. Finally, the proportion of variants that match. As an example, let's show some results of differents circumstances.
-
-Same sample 
+When both vcf files are the same.
 ( File names and sample names in these results have been modified to avoid any data protection issue.)
 ```
-File 1 contains one sample only. 
-File 1 contains one sample only.
-
  _____________________________  REPORT  ________________________________________ 
 
 vcf 1: 1  AND its sample name: A 
@@ -101,11 +82,10 @@ Total positions compared: 62
 Percentage in common: 62/62= 1.0
  ____________________________ END REPORT  _______________________________________
 ```
-Samples of the same patient
+
+Typical results when both samples belong to the same patient
 
 ```
-File 2.vcf contains one sample only.
-File 3.vcf contains one sample only.
 
  _____________________________  REPORT  ________________________________________ 
 
@@ -121,7 +101,7 @@ Percentage in common: 59/63= 0.9365079365079365
  ____________________________ END REPORT  _______________________________________
 ```
 
-Samples from different patients
+Typical results when  samples don´t belong to the same patient
 
 ```
 File 12.vcf contains one sample only.
@@ -142,7 +122,7 @@ Percentage in common: 33/78= 0.4230769230769231
  ____________________________ END REPORT  _______________________________________
 ```
 
-2. When there is not any common variant the report show looks like this 
+When there is not any common variant the report  looks like this 
 
 ```
  _____________________________  REPORT  ________________________________________ 
@@ -154,7 +134,7 @@ vcf 2:    AND its sample name:
 
  ____________________________ END REPORT  _______________________________________
 ```
-This is indicative of the vcf files represent different kind of test (eg. Myeloid_1.2 and genotyping). In this cirscuntances, even samples from the same patient will show 0 positions in common. 
+This last case is an indicative of the vcf files represent different kind of test (eg. Myeloid_1.2 and genotyping). In this cirscuntances, even samples from the same patient will show 0 positions in common. 
 
 
 

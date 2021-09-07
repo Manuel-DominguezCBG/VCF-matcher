@@ -49,17 +49,17 @@ Detailed explanations is provided in the code. However, the general process is e
 
 ### Diagram 1
 
-![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images,%20slides%20and%20stuff%20to%20explain%20the%20application/Slide1.JPG?raw=true)
+![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images_slides_and_stuff_to_explain_the_application/Slide1.JPG?raw=true)
 
 ### Diagram 2
 
-![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images,%20slides%20and%20stuff%20to%20explain%20the%20application/Slide2.JPG?raw=true)
+![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images_slides_and_stuff_to_explain_the_application/Slide2.JPG?raw=true)
 
 
 Diagram 1 explanation
 
 1. 2 VCF files as input
-2. Programm takes the body of the files (ignores meta-data lines) and check the number columns. The body of a VCF (Version 4.2) is formed by the next mandatory columns: CHROM, POS, ID, REF, ALT, QUAL, FILTER, INFO and FORMAT. Then, it is followed by the data of the samples. More than 10 columns means that there are more than 1 sample so the program ask the user to select the desirable sample. 10 columns means that it is a one-sample VCF.
+2. Program takes the body of the files (ignores meta-data lines) and check the number columns. The body of a VCF (Version 4.2) is formed by the next mandatory columns: CHROM, POS, ID, REF, ALT, QUAL, FILTER, INFO and FORMAT. Then, it is followed by the data of the samples. More than 10 columns means that there are more than 1 sample so the program ask the user to select the desirable sample. 10 columns means that it is a one-sample VCF.
 3. Creates 2 data frames (one per sample) with the data we need.
 4. Variant filtering. A couple of filters to ignore somactics variants or variants with low quality.
 

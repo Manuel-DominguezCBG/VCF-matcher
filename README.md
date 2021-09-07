@@ -45,7 +45,9 @@ This activates the virtual environment. You will need to do it every time you wa
 
 ## Functional/non-functional requirements
 
-Detailed explanations is provided in the code. In the next 2 UML diagrams is in general the process.
+Detailed explanations is provided in the code. However, the general process is explained here.
+
+![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images,%20slides%20and%20stuff%20to%20explain%20the%20application/Slide1.JPG?raw=true)
 
 Diagram 1
 

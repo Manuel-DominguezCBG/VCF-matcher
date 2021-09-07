@@ -257,12 +257,7 @@ Executing transaction: done
 ```
 (base) monkiky@Monkikys-MacBook-Pro VCF-matcher % conda activate vcf_matcher
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro VCF-matcher % pip freeze                                                   
-certifi==2021.5.30
-(vcf_matcher) monkiky@Monkikys-MacBook-Pro VCF-matcher % ls
-Images_slides_and_stuff_to_explain_the_application	Samples
-LICENSE							Test
-README.md						app
-Requirements.txt					test_installation.py
+
 ```
 
 #### To install the libraries we need to run the script
@@ -283,21 +278,19 @@ Collecting six>=1.5
   Using cached six-1.16.0-py2.py3-none-any.whl (11 kB)
 Installing collected packages: six, pytz, python-dateutil, numpy, pandas
 Successfully installed numpy-1.21.2 pandas-1.3.2 python-dateutil-2.8.2 pytz-2021.1 six-1.16.0
+
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro VCF-matcher % pip install argparse
 Collecting argparse
   Downloading argparse-1.4.0-py2.py3-none-any.whl (23 kB)
 Installing collected packages: argparse
 Successfully installed argparse-1.4.0
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro VCF-matcher % pip freeze          
-certifi==2021.5.30
-numpy==1.21.2
 pandas==1.3.2
-python-dateutil==2.8.2
-pytz==2021.1
-six==1.16.0
+numpy==1.21.2
+argparse==1.4.0
 ```
 
-#### To see that the script work with only this libraries 
+#### To see that the script works with only this libraries 
 ```
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro VCF-matcher % cd app 
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro app % ls
@@ -339,11 +332,101 @@ Requirements.txt					test_installation.py
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro VCF-matcher % pip freeze > Requirements.txt
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro VCF-matcher % less Requirements.txt 
 
-certifi==2021.5.30
-numpy==1.21.2
 pandas==1.3.2
-python-dateutil==2.8.2
-pytz==2021.1
-six==1.16.0
+numpy==1.21.2
+argparse==1.4.0
+```
 
+#### Finally, I am going to create a new env, install the libraires using 
+
+`pip install -r requirements.txt` 
+
+#### and run the script to confirm that everything works
+
+```
+(vcf_matcher) monkiky@Monkikys-MacBook-Pro VCF-matcher % conda create --name test  python --no-default-packages
+Collecting package metadata (current_repodata.json): done
+Solving environment: done
+
+## Package Plan ##
+
+  environment location: /Users/monkiky/opt/anaconda3/envs/test
+
+  added / updated specs:
+    - python
+
+
+The following NEW packages will be INSTALLED:
+
+  ca-certificates    pkgs/main/osx-64::ca-certificates-2021.7.5-hecd8cb5_1
+  certifi            pkgs/main/osx-64::certifi-2021.5.30-py39hecd8cb5_0
+  libcxx             pkgs/main/osx-64::libcxx-10.0.0-1
+  libffi             pkgs/main/osx-64::libffi-3.3-hb1e8313_2
+  ncurses            pkgs/main/osx-64::ncurses-6.2-h0a44026_1
+  openssl            pkgs/main/osx-64::openssl-1.1.1l-h9ed2024_0
+  pip                pkgs/main/osx-64::pip-21.2.4-py37hecd8cb5_0
+  python             pkgs/main/osx-64::python-3.9.6-h88f2d9e_1
+  readline           pkgs/main/osx-64::readline-8.1-h9ed2024_0
+  setuptools         pkgs/main/osx-64::setuptools-52.0.0-py39hecd8cb5_0
+  sqlite             pkgs/main/osx-64::sqlite-3.36.0-hce871da_0
+  tk                 pkgs/main/osx-64::tk-8.6.10-hb0a8c7a_0
+  tzdata             pkgs/main/noarch::tzdata-2021a-h5d7bf9c_0
+  wheel              pkgs/main/noarch::wheel-0.37.0-pyhd3eb1b0_0
+  xz                 pkgs/main/osx-64::xz-5.2.5-h1de35cc_0
+  zlib               pkgs/main/osx-64::zlib-1.2.11-h1de35cc_3
+
+
+Proceed ([y]/n)? y
+
+Preparing transaction: done
+Verifying transaction: done
+Executing transaction: done
+#
+# To activate this environment, use
+#
+#     $ conda activate test
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+
+(vcf_matcher) monkiky@Monkikys-MacBook-Pro VCF-matcher % conda activate test
+(test) monkiky@Monkikys-MacBook-Pro VCF-matcher % pip install -r requirements.txt
+Collecting numpy==1.21.2
+  Using cached numpy-1.21.2-cp39-cp39-macosx_10_9_x86_64.whl (17.0 MB)
+Collecting pandas==1.3.2
+  Using cached pandas-1.3.2-cp39-cp39-macosx_10_9_x86_64.whl (11.6 MB)
+Collecting argparse==1.4.0
+  Using cached argparse-1.4.0-py2.py3-none-any.whl (23 kB)
+Collecting pytz>=2017.3
+  Using cached pytz-2021.1-py2.py3-none-any.whl (510 kB)
+Collecting python-dateutil>=2.7.3
+  Using cached python_dateutil-2.8.2-py2.py3-none-any.whl (247 kB)
+Collecting six>=1.5
+  Using cached six-1.16.0-py2.py3-none-any.whl (11 kB)
+Installing collected packages: six, pytz, python-dateutil, numpy, pandas, argparse
+Successfully installed argparse-1.4.0 numpy-1.21.2 pandas-1.3.2 python-dateutil-2.8.2 pytz-2021.1 six-1.16.0
+(test) monkiky@Monkikys-MacBook-Pro VCF-matcher % cd app     
+(test) monkiky@Monkikys-MacBook-Pro app % python run.py 
+File W2013397_S6.vcf contains one sample only.
+File W2103016_S15.vcf contains one sample only.
+
+ _____________________________  REPORT  ________________________________________ 
+
+vcf 1: W2013397_S6.vcf  AND its sample name: W2013397  
+vcf 2:  W2103016_S15.vcf  AND its sample name: W2103016
+
+                                                  Homozigous: 30 
+Number of positions with the same genotype: 55 
+                                                  Heterozigous: 25 
+                                                
+                                                  
+Number of positions with different genotype: 5 
+                                                  
+
+
+Total positions compared: 60
+Percentage in common: 55/60= 0.9166666666666666
+
+ ____________________________ END REPORT  _______________________________________
 ```

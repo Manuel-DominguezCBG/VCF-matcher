@@ -43,7 +43,7 @@ This activates the virtual environment. You will need to do it every time you wa
     `python run.py --vcf1 Path/file_name_of_sample1 --vcf2 Path/file_name_of_sample2`
 
 
-## Functional/non-functional requirements
+## Functional/non-functional requirements and results
 
 Detailed explanations is provided in the code. However, the general process is explained here.
 
@@ -56,14 +56,14 @@ Detailed explanations is provided in the code. However, the general process is e
 ![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images,%20slides%20and%20stuff%20to%20explain%20the%20application/Slide2.JPG?raw=true)
 
 
-Diagram 1
+Diagram 1 explanation
 
 1. 2 VCF files as input
 2. Programm takes the body of the files (ignores meta-data lines) and check the number columns. The body of a VCF (Version 4.2) is formed by the next mandatory columns: CHROM, POS, ID, REF, ALT, QUAL, FILTER, INFO and FORMAT. Then, it is followed by the data of the samples. More than 10 columns means that there are more than 1 sample so the program ask the user to select the desirable sample. 10 columns means that it is a one-sample VCF.
 3. Creates 2 data frames (one per sample) with the data we need.
 4. Variant filtering. A couple of filters to ignore somactics variants or variants with low quality.
 
-Diagram 2 
+Diagram 2 explanation
 
 5. Generate a unit identifier. This is the concatenation of chromosome, position, reference and alteration alleles. It also takes the genotypes (GT) values.
 6. Merge both data frames and count common variants (variants that have the same unit identifier). Count the number of variants with equal unit identifier and GT. Finally, count the number of heterozigous and homozigous common variants.
@@ -93,7 +93,7 @@ Percentage in common: 62/62= 1.0
  ____________________________ END REPORT  _______________________________________
 ```
 
-#### when both samples belong to the same patient
+#### When both samples belong to the same patient
 
 ```
 
@@ -111,7 +111,7 @@ Percentage in common: 59/63= 0.9365079365079365
  ____________________________ END REPORT  _______________________________________
 ```
 
-#### when  samples don´t belong to the same patient
+#### When  samples don´t belong to the same patient
 
 ```
 File 12.vcf contains one sample only.
@@ -154,4 +154,4 @@ In a small experiment carried out with 40 samples from the same group of patient
 
 After running the script with samples belonging to the same patient (matched samples) and samples from different patients (unmatched samples) I have compared the results in the following scatter plot. This shows the results of X pair-wise comparisons between 40 samples belonging to the same set of individuals (matched samples)  and X samples not belonging to the same individuals (unmatched samples). It can be seen how samples that belong to the same biological source present a higher proportion of positions with common genotypes (X-axis).
 
-(Scatter plot here)
+![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images_slides_and_stuff_to_explain_the_application/download.png?raw=true)

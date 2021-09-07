@@ -47,7 +47,14 @@ This activates the virtual environment. You will need to do it every time you wa
 
 Detailed explanations is provided in the code. However, the general process is explained here.
 
+### Diagram 1
+
 ![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images,%20slides%20and%20stuff%20to%20explain%20the%20application/Slide1.JPG?raw=true)
+
+### Diagram 2
+
+![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images,%20slides%20and%20stuff%20to%20explain%20the%20application/Slide2.JPG?raw=true)
+
 
 Diagram 1
 
@@ -63,11 +70,12 @@ Diagram 2
 7. Generate the report. The different type of reports are explain below.
 
 
-Every report starts with two lines informing the name of the VCF files and the samples.
+Every report starts always with two lines informing the name of the VCF files and the samples.
 
-After this, the number of positions with the same genotype ( unit of identifier and GT) and the number of homozygous and heterozygous. Then, the sample of positions with a different genotype. Finally, the proportion of variants that match. 
+After this, the number of positions with the same genotype ( unit of identifier and GT) and the number of homozygous and heterozygous. Then, the sample of positions with a different genotype. Finally, the proportion of variants that match. I have copied and page some reports under different and typical cirscunstances.
 
-When both vcf files are the same.
+#### When both vcf files are the same.
+
 ( File names and sample names in these results have been modified to avoid any data protection issue.)
 ```
  _____________________________  REPORT  ________________________________________ 
@@ -85,7 +93,7 @@ Percentage in common: 62/62= 1.0
  ____________________________ END REPORT  _______________________________________
 ```
 
-Typical results when both samples belong to the same patient
+#### when both samples belong to the same patient
 
 ```
 
@@ -103,7 +111,7 @@ Percentage in common: 59/63= 0.9365079365079365
  ____________________________ END REPORT  _______________________________________
 ```
 
-Typical results when  samples don´t belong to the same patient
+#### when  samples don´t belong to the same patient
 
 ```
 File 12.vcf contains one sample only.
@@ -124,7 +132,7 @@ Percentage in common: 33/78= 0.4230769230769231
  ____________________________ END REPORT  _______________________________________
 ```
 
-When there is not any common variant the report  looks like this 
+#### When there is not any common variant the report looks like this 
 
 ```
  _____________________________  REPORT  ________________________________________ 

@@ -168,7 +168,7 @@ In general, the program works but there is also some examples to consider that m
 The following documentation is not necessary to understand and run the program. This is some explanation for learning purposes to be read by my supervisor.
 
 
-# How this project has been planned
+## How this project has been planned
 
 In the beginning, I used a jupyter notebook and the same couple of VCF files to develop the core of the program. Then, I run the script with different files because I expected mistakes due to the small differences between the different VCF files we generated in the lab. To solve these errors I was introducing incremental changes. Finally, when the program worked correctly, I optimized the software. For example, to select the body of the VCF files, originally I created new files with the body to load the data into a data frame. This was inefficient and very time-consuming. I improved this by selecting and importing directly the body of the files into the data frames.
 
@@ -180,7 +180,7 @@ Then, I concentrated on testing. I was testing every step while writing the code
 
 
 
-# How the env has been created
+## How the env has been created
 
 ### To create the env
 
@@ -307,8 +307,8 @@ File W2103016_S15.vcf contains one sample only.
 
  _____________________________  REPORT  ________________________________________ 
 
-vcf 1: W2013397_S6.vcf  AND its sample name: W2013397  
-vcf 2:  W2103016_S15.vcf  AND its sample name: W2103016
+vcf 1: AAAAAAA.vcf  AND its sample name: AAAAAAA  
+vcf 2:  BBBBBB.vcf  AND its sample name: BBBBBBBB
 
                                                   Homozygous: 30 
 Number of positions with the same genotype: 55 
@@ -418,8 +418,8 @@ File W2103016_S15.vcf contains one sample only.
 
  _____________________________  REPORT  ________________________________________ 
 
-vcf 1: W2013397_S6.vcf  AND its sample name: W2013397  
-vcf 2:  W2103016_S15.vcf  AND its sample name: W2103016
+vcf 1: AAAAAAA.vcf  AND its sample name: AAAAAAA 
+vcf 2:  BBBBBB.vcf  AND its sample name: BBBBBBB
 
                                                   Homozygous: 30 
 Number of positions with the same genotype: 55 
@@ -488,6 +488,9 @@ run.py:194:4: C0103: Constant name "report0" doesn't conform to UPPER_CASE namin
 run.py:231:4: C0103: Constant name "report" doesn't conform to UPPER_CASE naming style (invalid-name)
 run.py:14:0: W0611: Unused import argparse (unused-import)
 run.py:16:0: C0411: standard import "import os" should be placed before "import pandas as pd" (wrong-import-order)
+
+------------------------------------------------------------------
+Your code has been rated at 4.02/10 
 ```
 
 #### After applying some corrections 

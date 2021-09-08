@@ -26,7 +26,7 @@ NAME_FILE_1 = args.vcf1
 NAME_FILE_2 = args.vcf2
 
 
-   ### 2. Take only the data contains in the vcf files.
+   ### 2. Take only the data contains in the body of the vcf files.
 
 # Originally what I did was to delete the metedata and save in a new file the data
 # This approach was over complicated and doest´t work in window machines.

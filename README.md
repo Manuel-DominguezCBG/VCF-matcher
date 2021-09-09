@@ -83,7 +83,7 @@ Detailed explanation is provided in the code. However, the general process is ex
 
 ### Diagram 2
 
-![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images_slides_and_stuff_to_explain_the_application/diagram2.JPG?raw=true
+![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images_slides_and_stuff_to_explain_the_application/diagram2.JPG?raw=true)
 
 Diagram 1 explanation
 
@@ -186,7 +186,7 @@ Patient 20: Sample 20A and Sample 20B.
 I have also run the script with samples from different biological source and the results I have got are show in the next plot:
 
 
-![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images_slides_and_stuff_to_explain_the_application/download.png?raw=true)
+![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images_slides_and_stuff_to_explain_the_application/small_experiment.png?raw=true)
 
 The scatter plot shows the relation between the proportion of position with common genotypes (axis X) vs. the total number of positions compared (axis Y). In red the pair-samples that belong to the same patient. In blue, the pair-samples that don´t belong to the same patient. It can be seen how the method distinguishes when two samples belong or not to the same patient. Samples from the same biological source show a significant higher proportion of positions with same genotype. In other words, two VCF files from the same person presents more common variants than samples from different persons. 
 

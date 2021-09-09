@@ -1,6 +1,6 @@
 # VCF-matcher
 
-Determine if two Variant Call Format (VCF) files came from the same biological source by comparing common variants.
+Determine if two Variant Call Format (VCF) files came from the same biological source by comparing common variants. 
 
 ## Introduction
 
@@ -190,13 +190,17 @@ I have also run the script with samples from different biological source and the
 
 ![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images_slides_and_stuff_to_explain_the_application/small_experiment.png?raw=true)
 
-The scatter plot shows the relation between the proportion of position with common genotypes (axis X) vs. the total number of positions compared (axis Y). In red the pair-samples that belong to the same patient. In blue, the pair-samples that don´t belong to the same patient. It can be seen how the method distinguishes when two samples belong or not to the same patient. Samples from the same biological source show a significant higher proportion of positions with same genotype. In other words, two VCF files from the same person presents more common variants than samples from different persons. 
+The scatter plot shows the relation between the proportion of positions with common genotypes (axis x) vs. the total number of positions compared (axis y). In red the pair-samples that belong to the same patient. In blue, the pair-samples that don´t belong to the same patient. It can be seen how the method distinguishes when two samples belong or not to the same patient. Samples from the same biological source show a significant higher proportion of positions with the same genotype. In other words, two VCF files from the same person presents more common variants than samples from different persons.
+ 
+In a more serious experiment, I would have wanted to run this with more samples but because to get the samples it is a big time consuming, and this is a learning project I think this is enough.
+ 
+In general, the program works but there is also some factors to consider that might generate a misinterpretation such as a false negative (low proportion of positions with common genotype of samples that really belong to the same patient) due to the VCFs don’t cover the same genomic regions.
 
-In general, the program works but there are also some examples to consider that might generate results easy to misinterpret such as a false negative (low proportion of positions with common genotype of samples that really belong to the same patient) due to the VCF files don’t cover the same genomic regions e.g same patient but different kind of test.
+I would recommend this was used as an upfront rapid analysis in a diagnostic setting and ID should be confirmed by QF-PCR wherever possible or by using custom high density SNP panels to generate a SNP profile for each sample and SNP panels specifically designed for sample identification.
 
 ## Testing
 
-11 tests have been carried out to verify that the results in every steps are what I expected. Details can be seen in the Test folder.
+11 tests have been carried out to verify that the results in every steps are what it is expected. Details can be seen in the Test folder.
 
 With these 11 tests I have checked:
 
@@ -211,8 +215,6 @@ To do all of this, I have created manually a large vcf file (not provide in the 
 
 ![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images_slides_and_stuff_to_explain_the_application/pytest_html_reporter.JPG?raw=true)
 
-
-The following documentation is not necessary to understand and run the program. This is some explanation for learning purposes to be read by my supervisors.
 
 ## How this project has been planned
 
@@ -385,7 +387,7 @@ numpy==1.21.2
 argparse==1.4.0
 ```
 
-#### Finally, I am going to create a new env, install the libraries using and run the script to confirm that everything works
+#### Finally, I am going to create a new env, install the libraries and run the script to confirm that everything works in a new env
 
 ```
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro VCF-matcher % conda create --name test  python --no-default-packages
@@ -472,7 +474,7 @@ Percentage in common: 55/60= 0.9166666666666666
  ____________________________ END REPORT  _______________________________________
 ```
 
-## Now I show how I have improved my code by using pylint
+## How I have improved my code by using pylint
 
 #### Analysis after running pylint for the first time
 ```

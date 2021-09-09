@@ -6,7 +6,11 @@ Determine if two Variant Call Format (VCF) files came from the same biological s
 
 In facilities that manage high sample throughput (E.g. a clinical genomics lab) sample mix-up or mislabelling is a common problem (Koboldt et al. , 2010; Grimm et al., 2010). This issue can lead to incorrect data processing and analysis which conflicting results and error conclusions/reports might have a huge negative impact on the diagnostic provided.
 
-In one of the discussions carried out with my supervisor, he showed me an approach of determining manually whether two VCF files represent samples from the same patient or not by comparing their genotypes. Following this method, I propose here a script of Python that performs exactly the same,it provides a rapid pair-wise comparison of two VCF files.
+In one of the discussions carried out with my supervisor, he showed me an approach of determining manually whether two VCF files represent samples from the same patient or not by comparing their genotypes. Following this method, I propose here a script of Python that performs exactly the same, it provides a rapid pair-wise comparison of two VCF files.
+
+## How this repo is organised
+
+
 
 ##  Implementation, features and installation
 
@@ -17,7 +21,7 @@ This program is a Python command-line tool (Python v3.9) for Linux operating sys
 - pandas
 - numpy
 
-For installation, I suggest cloning this repository to your machine and set up a virtual environment so that it does't mess up any other python installation you've got. This is very simple to do by following the instructions [here](https://docs.python.org/3/tutorial/venv.html). A very condensed version:
+For installation, I suggest cloning this repository to your machine and set up a virtual environment so that it doesn’t mess up any other python installation you've got. This is very simple to do by following the instructions [here](https://docs.python.org/3/tutorial/venv.html). A very condensed version:
 
 0. In a folder, e.g.  `/home/Name/NGS` 
 
@@ -42,19 +46,17 @@ This activates the virtual environment. You will need to do it every time you wa
 5. Run the script
     `python run.py --vcf1 Path/file_name_of_sample1 --vcf2 Path/file_name_of_sample2`
 
-
 ## Functional/non-functional requirements and results
 
 Detailed explanation is provided in the code. However, the general process is explained here.
 
 ### Diagram 1
 
-![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images_slides_and_stuff_to_explain_the_application/Slide1.JPG?raw=true)
+![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images_slides_and_stuff_to_explain_the_application/diagram1.JPG?raw=true)
 
 ### Diagram 2
 
-![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images_slides_and_stuff_to_explain_the_application/Slide2.JPG?raw=true)
-
+![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images_slides_and_stuff_to_explain_the_application/diagram2.JPG?raw=true
 
 Diagram 1 explanation
 
@@ -69,10 +71,9 @@ Diagram 2 explanation
 6. Merge both data frames and count common variants (variants that have the same unit identifier). Count the number of variants with equal unit identifier and GT. Finally, count the number of heterozygous and homozygous common variants.
 7. Generate the report. The different types of reports are explained below.
 
-
 Every report always starts with two lines informing the name of the VCF files and the samples.
 
-After this, the number of positions with the same genotype ( unit of identifier and GT) and the number of homozygous and heterozygous. Then, the sample of positions with a different genotype. Finally, the proportion of variants that match. I have copied and page some reports under different and typical circumstances.
+After this, the number of positions with the same genotype (unit of identifier and GT) and the number of homozygous and heterozygous. Then, the sample of positions with a different genotype. Finally, the proportion of variants that match. I have copied and page some reports under different and typical circumstances.
 
 #### When both vcf files are the same.
 
@@ -143,8 +144,7 @@ vcf 2:    AND its sample name:
 
  ____________________________ END REPORT  _______________________________________
 ```
-This last case might indicative that the vcf files represent different kind of test (eg. Myeloid_1.2 and genotyping). In this circumstances, even samples from the same patient might show 0 positions in common. 
-
+This last case might indicative that the vcf files represent different kind of test (eg. Myeloid_1.2 and genotyping). In these circumstances, even samples from the same patient might show 0 positions in common. 
 
 
 ##  A small experiment to check if the methodology followed works
@@ -158,26 +158,42 @@ Patient 20: Sample 20A and Sample 20B.
 
 I have also run the script with samples from different biological source and the results I have got are show in the next plot:
 
+
 ![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images_slides_and_stuff_to_explain_the_application/download.png?raw=true)
 
 The scatter plot shows the relation between the proportion of position with common genotypes (axis X) vs. the total number of positions compared (axis Y). In red the pair-samples that belong to the same patient. In blue, the pair-samples that don´t belong to the same patient. It can be seen how the method distinguishes when two samples belong or not to the same patient. Samples from the same biological source show a significant higher proportion of positions with same genotype. In other words, two VCF files from the same person presents more common variants than samples from different persons. 
 
-In general, the program works but there is also some examples to consider that might generate results easy to misinterpret such as a false negative (low proportion of positions with common genotype of samples that really belong to the same patient) due to the VCF files don’t cover the same genomic regions e.g same patient but different kind of test.
+In general, the program works but there are also some examples to consider that might generate results easy to misinterpret such as a false negative (low proportion of positions with common genotype of samples that really belong to the same patient) due to the VCF files don’t cover the same genomic regions e.g same patient but different kind of test.
+
+## Testing
+
+11 tests have been carried out to verify that the results in every steps are what I expected. Details can be seen in the Test folder.
+
+With these 11 tests I have checked:
+
+1. If the data of the vcf files are correctly loaded
+2. If script correctly take the data selected by the user in vcf files with more than one sample
+3. If the filters correctly select the desirable data.
+4. If the data manipulation is done correctly when the script merges the data of both samples
+5. If variants are matched correctly
+6. Finally, if the results agree with the input entered.
+
+To do all of this, I have created manually a large vcf file (not provide in the repository) to ensure that results agree with the tests.
+
+![alt text](https://github.com/Manuel-DominguezCBG/VCF-matcher/blob/main/Images_slides_and_stuff_to_explain_the_application/pytest_html_reporter.JPG?raw=true)
 
 
-The following documentation is not necessary to understand and run the program. This is some explanation for learning purposes to be read by my supervisor.
-
+The following documentation is not necessary to understand and run the program. This is some explanation for learning purposes to be read by my supervisors.
 
 ## How this project has been planned
 
-In the beginning, I used a jupyter notebook and the same couple of VCF files to develop the core of the program. Then, I run the script with different files because I expected mistakes due to the small differences between the different VCF files we generated in the lab. To solve these errors I was introducing incremental changes. Finally, when the program worked correctly, I optimized the software. For example, to select the body of the VCF files, originally I created new files with the body to load the data into a data frame. This was inefficient and very time-consuming. I improved this by selecting and importing directly the body of the files into the data frames.
+In the beginning, I used a jupyter notebook and the same couple of VCF files to develop the core of the program. Then, I run the script with different files because I expected mistakes due to the small differences between the different VCF files we generated in the lab. To solve these errors, I was introducing incremental changes. Finally, when the program worked correctly, I optimized the software. For example, to select the body of the VCF files, originally I created new files with the body to load the data into a data frame. This was inefficient and very time-consuming. I improved this by selecting and importing directly the body of the files into the data frames.
 
 Then, I adapt my code from the jupyter notebook to a script to run directly the program from the command line (these differences are explained with comments in the jupyter notebook). 
 
 Then, immediately after I spent some time working with documentation to do not forget any important details to mention. I was adding comments while writing the code but at this point, I focused on the Readme file. 
 
 Then, I concentrated on testing. I was testing every step while writing the code but at this point, I implemented proper testing methods. This has been done in a separate folder. 
-
 
 
 ## How the env has been created
@@ -231,9 +247,7 @@ The following NEW packages will be INSTALLED:
   xz                 pkgs/main/osx-64::xz-5.2.5-h1de35cc_0
   zlib               pkgs/main/osx-64::zlib-1.2.11-h1de35cc_3
 
-
 Proceed ([y]/n)? y
-
 
 Downloading and Extracting Packages
 openssl-1.1.1l       | 2.2 MB    | ##################################################################################### | 100% 
@@ -296,11 +310,11 @@ numpy==1.21.2
 argparse==1.4.0
 ```
 
-#### To see that the script works with only this libraries 
+#### To see that the script works with only these libraries 
 ```
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro VCF-matcher % cd app 
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro app % ls
-Development.ipynb	assets			run.py
+Development.ipynb assets      run.py
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro app % python run.py 
 File W2013397_S6.vcf contains one sample only.
 File W2103016_S15.vcf contains one sample only.
@@ -327,13 +341,13 @@ Percentage in common: 55/60= 0.9166666666666666
 
 ```
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro app % ls
-Development.ipynb	assets			run.py
+Development.ipynb assets      run.py
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro app % cd ..
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro VCF-matcher % ls
-Images_slides_and_stuff_to_explain_the_application	Samples
-LICENSE							Test
-README.md						app
-Requirements.txt					test_installation.py
+Images_slides_and_stuff_to_explain_the_application  Samples
+LICENSE             Test
+README.md           app
+Requirements.txt          test_installation.py
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro VCF-matcher % pip freeze > Requirements.txt
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro VCF-matcher % less Requirements.txt 
 
@@ -342,11 +356,7 @@ numpy==1.21.2
 argparse==1.4.0
 ```
 
-#### Finally, I am going to create a new env, install the libraries using 
-
-`pip install -r requirements.txt` 
-
-#### and run the script to confirm that everything works
+#### Finally, I am going to create a new env, install the libraries using and run the script to confirm that everything works
 
 ```
 (vcf_matcher) monkiky@Monkikys-MacBook-Pro VCF-matcher % conda create --name test  python --no-default-packages
@@ -359,7 +369,6 @@ Solving environment: done
 
   added / updated specs:
     - python
-
 
 The following NEW packages will be INSTALLED:
 
@@ -379,7 +388,6 @@ The following NEW packages will be INSTALLED:
   wheel              pkgs/main/noarch::wheel-0.37.0-pyhd3eb1b0_0
   xz                 pkgs/main/osx-64::xz-5.2.5-h1de35cc_0
   zlib               pkgs/main/osx-64::zlib-1.2.11-h1de35cc_3
-
 
 Proceed ([y]/n)? y
 
@@ -434,7 +442,6 @@ Percentage in common: 55/60= 0.9166666666666666
 
  ____________________________ END REPORT  _______________________________________
 ```
-
 
 ## Now I show how I have improved my code by using pylint
 
@@ -507,4 +514,8 @@ run.py:193:0: C0301: Line too long (107/100) (line-too-long)
 
 ------------------------------------------------------------------
 Your code has been rated at 9.22/10 (previous run: 9.22/10, +0.00)
+
 ```
+I have also used pylint with the script I developed to do the test.
+
+

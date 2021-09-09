@@ -94,7 +94,7 @@ def test_5():
 # At that point of the process, a standard semi_final_df looks like this
 
 '''
- CHROMPOSREFALT   GT
+CHROMPOSREFALT   GT
 3       chr1.36933096T.C  0/1
 9       chr2.25463483G.A  0/1
 13      chr2.25466888G.T  1/1
@@ -139,7 +139,6 @@ simple_df_2 = pd.DataFrame(data, columns = ['CHROMPOSREFALT', 'GT'])
 
 # After this, we already know the results we should expect in the report
 '''
-
                                                   Homozygous: 1
 Number of positions with the same genotype: 2 
                                                   Heterozygous: 1

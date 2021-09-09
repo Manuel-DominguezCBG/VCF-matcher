@@ -35,6 +35,8 @@ In one of the discussions carried out with my supervisor, he showed me an approa
     ├── pytest_html_reporter.JPG
     ├── diagram2.JPG
     └── diagram1.JPG
+
+5 directories, 17 files
 ```
 
 
@@ -543,6 +545,6 @@ run.py:193:0: C0301: Line too long (107/100) (line-too-long)
 Your code has been rated at 9.22/10 (previous run: 9.22/10, +0.00)
 
 ```
-I have also used pylint with the script I developed to do the test.
+I have also used pylint with the script with which I have developed to do the tests.
 
 

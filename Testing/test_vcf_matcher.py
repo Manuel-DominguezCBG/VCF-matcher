@@ -25,36 +25,38 @@ data1 = pd.read_csv(NAME_FILE_1, comment='#', delimiter='\t', names=columns)
 
 # The test:
 def test_1():
-    assert len(data1) == 10425 # The body of the vcf file has 10425 rows
+    ''' The body of the vcf file has 10425 rows'''
+    assert len(data1) == 10425 
 
 
-#### SECOND TEST: Does it match the sample inetered by the user with the correct column?
+#### SECOND TEST: Does it match the sample entered by the user with the correct column?
 
 if len(data1.columns) > 10:
-    Name_sample1 = "Sample_3" # Simulating that the user has entered sample 3
+    NAME_FILE_1 = "Sample_3" # Simulating that the user has entered sample 3
 else:
     print('File', os.path.basename(NAME_FILE_1), 'contains one sample only.')
-    Name_sample1 = data1.columns.tolist()[9]
+    NAME_FILE_1 = data1.columns.tolist()[9]
 
 def test_2():
     '''
     The first value of the sample number 3 is "0/1:20:221,7:0.99:20:-10.2127:20"
     '''
-    assert data1[Name_sample1].iloc[0] == "0/1:20:221,7:0.99:20:-10.2127:20" 
+    assert data1[NAME_FILE_1].iloc[0] == "0/1:20:221,7:0.99:20:-10.2127:20" 
 
 #### THIRD TEST: PASS filter works ok?
 
 # 5000 PASS variants have been put in this file (first filter)
 
 def test_3():
+    '''5000 variants I have created with FILTER == PASS'''
     assert len(data1.query('FILTER == "PASS"')) == 5000
 
 # FOURTH TEST: VF filter works ok?
 
-# Only 1811 variants present a VF fielf higher than 0.4
+# Only 1811 variants present a VF field higher than 0.4
 
 # To get the values from the column Sample_3
-df2 = data1[Name_sample1].str.split(':', expand=True)
+df2 = data1[NAME_FILE_1].str.split(':', expand=True)
 df2 = df2.fillna(value=np.nan)
 df2 = df2.dropna(axis=1, how='any')
 df2.columns = data1.FORMAT.iloc[0].split(':')
@@ -67,6 +69,7 @@ if "VF" in data2.columns:
 
 # Apply the test
 def test_4():
+    ''' 1811 variants I have created with FILTER == PASS & VF > 0.4'''
     assert len(data2) == 1811
 
 #### FIVETH TEST: When both df (one per sample) are merge, do we miss any variant?
@@ -81,6 +84,7 @@ frames = [data2[['CHROMPOSREFALT', 'GT']],data2[['CHROMPOSREFALT', 'GT']]]
 semi_final_df1 = pd.concat(frames)
 
 def test_5():
+    ''' If both dfs are merge correctly the total number of rows should be 3622'''
     assert len(semi_final_df1) == 3622
 
 #### SIXTH TEST: The variant matcher does what expected?
@@ -112,7 +116,7 @@ data = {'CHROMPOSREFALT':['chr1.00000000001T.C', 'chr1.00000000002T.C', "chr1.00
 simple_df_1 = pd.DataFrame(data, columns = ['CHROMPOSREFALT', 'GT'])
 '''
         CHROMPOSREFALT   GT
-0  chr1.00000000001T.C  0/1 
+0  chr1.00000000001T.C  0/1
 1  chr1.00000000002T.C  0/0
 2  chr1.00000000003T.C  0/0
 3  chr1.00000000004T.C  0/1
@@ -130,15 +134,15 @@ simple_df_2 = pd.DataFrame(data, columns = ['CHROMPOSREFALT', 'GT'])
 3  chrX.00000000003T.C  0/1
 '''
 
-# Bassically, these two dfs contain 1 equal heterozigous variant (row 0), 1 equal homorozigous variant (row 1)
-# 1 equal variant but different genotype (row 2) and 1 completly different variant.
+# Bassically, these two dfs contain 1 equal heterozygous variant (row 0), 1 equal homozygous variant (row 1)
+# 1 equal variant but different genotype (row 2) and 1 completely different variant.
 
-# After this, we already know the results we should expect in the report 
+# After this, we already know the results we should expect in the report
 '''
 
-                                                  Homozigous: 1
+                                                  Homozygous: 1
 Number of positions with the same genotype: 2 
-                                                  Heterozigous: 1
+                                                  Heterozygous: 1
                                                 
                                                   
 Number of positions with different genotype: 3
@@ -165,7 +169,7 @@ final_df=(semi_final_df.assign(key=semi_final_df.groupby('CHROMPOSREFALT').cumco
       .rename_axis(columns=None).reset_index())
 final_df = final_df.replace(np.NaN,"99/99" ) # To avoid future error
 
-# To compared matched variants, which are hom or het and what are complectly differents
+# To compared matched variants, which are hom or het and what are complected different
 
 final_df["Matches"] = np.where(final_df["Sample1"] == final_df["Sample2"], True, False)
 
@@ -191,24 +195,30 @@ r9 = r4/(r4+r7)    # Percentage in common
 # and finally, we can run the tests
 
 def test_6():
+    '''Number of positions with the same genotype should be 2'''
     assert r4 == 2
 
 
 def test_7():
+    ''' Number of matched homozygous variants should 1'''
     assert r5 == 1
 
 
 def test_8():
+    ''' Number of matched heterozygous variants should be 1'''
     assert r6 == 1
 
 
 def test_9():
+    ''' Number of positions with different genotype should 3'''
     assert r7 == 3
 
 
 def test_10():
+    ''' Total positions compared should be 5'''
     assert r8 == 5
 
 
 def test_11():
+    ''' Percentage in common should be 0.4'''
     assert r9 == 0.4

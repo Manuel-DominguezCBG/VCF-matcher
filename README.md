@@ -226,6 +226,10 @@ Then, immediately after I spent some time working with documentation to do not f
 
 Then, I concentrated on testing. I was testing every step while writing the code but at this point, I implemented proper testing methods. This has been done in a separate folder. 
 
+Finally, I have spent some time using Pylint (a static code analysis tool) to create a more compressible code applying coding standards.
+
+
+
 
 ## How the env has been created
 

@@ -102,6 +102,22 @@ def test_concatenate_samples():
     assert data_to_test_5.shape[0] == 2       # Two columns
     assert data_to_test_5.shape[1] == 1352*2  # Double of rows
 
+data_to_test_5 = test_concatenate_samples()
+
 # 373978487
 
+print(match_variants(data_to_test_5))
+
 def test_match_variants():
+    '''
+    I have picked up a couple of variants from the original file
+    and I have done this variants manuallyI can check now if there these matches 
+    1.12026355A.C   0/1
+    3.52410008G.C   0/0
+    7.810263C.T     0/0
+    22.26860269G.C  0/1
+    X.38145690TCCTTCCTCCTCTTCCCCCTCC.T 0/0
+    '''
+    data_to_test_6 = match_variants(data_to_test_5)
+    assert data_to_test_6.loc[data_to_test_6['CHROMPOSREFALT'] == "1.12026355A.C", 'Sample1'].item() == "0/1"
+    assert data_to_test_6.loc[data_to_test_6['CHROMPOSREFALT'] == "1.12026355A.C", 'Sample2'].item() == "0/1"

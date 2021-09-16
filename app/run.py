@@ -96,14 +96,15 @@ def match_variants(data):
     '''
     Match common variants in one column and put the GT values of both samples
     in different columns.
-    No common variants are also set in the first column giving NaN values in the
-    third column. I have solved this substituting the NaN for 99/99 values
+    No common variants are also set in the first column giving NaN values 
+    in the third column. I have solved this by substituting the NaN for 99/99 values
     '''
     matched_df = (data.assign(key=data.groupby('CHROMPOSREFALT').cumcount())
         .pivot('CHROMPOSREFALT','key','GT')
         .rename(columns=lambda x:f"Sample{x+1}")
         .rename_axis(columns=None).reset_index())
-    return matched_df.replace(np.NaN,"99/99" )
+    matched_df = matched_df.replace(np.NaN,"99/99" )
+    return matched_df.iloc[:, : 3]
 
 def count_hom_het_variants(data):
     data['Genotype1'] = data.iloc[:,2].apply(lambda x: x.split('/' or '|')[0])
@@ -140,7 +141,7 @@ if __name__ == "__main__":
     # Filter 2
     dataA = filter_2(dataA)
     dataB = filter_2(dataB)
-    print(dataB)
+
     # Unit_identifier
     dataA['CHROMPOSREFALT'] = Unit_identifier(dataA)
     dataB['CHROMPOSREFALT'] = Unit_identifier(dataB)

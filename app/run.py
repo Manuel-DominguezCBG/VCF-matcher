@@ -114,6 +114,15 @@ def count_hom_het_variants(data):
                        choicelist=["Hom", "Het"],
                        default=pd.NA)
 
+def count_and_report(data):
+    r4 = data['Matches'].value_counts().get(True, 0) # Count trues if any, return 0
+    r5 = data['Hom/het'].value_counts().get("Hom", 0)
+    r6 = data['Hom/het'].value_counts().get("Het", 0)
+    r7 = data['Matches'].value_counts().get(False, 0)
+    r8 = len(data)
+    r9 = r4/(r4+r7)
+    return r4,r5,r6,r7,r8,r9 
+
 
 if __name__ == "__main__":
     # execute only if run as a script
@@ -183,18 +192,12 @@ if __name__ == "__main__":
     # Else count common positions and carry on the report.
         final_df["Matches"] = np.where(final_df["Sample1"] == final_df["Sample2"], True, False)
         final_df.columns = ['CHROMPOSREFALT',os.path.basename(NAME_FILE_1),os.path.basename(NAME_FILE_2),"Matches" ]
-
+        print(final_df)
     #  Get and count hom and het common variants
         final_df['Hom/het'] = count_hom_het_variants(final_df)
 
     # Generate the second type of report
-
-        r4 = final_df['Matches'].value_counts().get(True, 0) # Count trues if any, return 0
-        r5 = final_df['Hom/het'].value_counts().get("Hom", 0)
-        r6 =final_df['Hom/het'].value_counts().get("Het", 0)
-        r7 = final_df['Matches'].value_counts().get(False, 0)
-        r8 = len(final_df)
-        r9 = r4/(r4+r7)
+        r4,r5,r6,r7,r8,r9 = count_and_report(final_df)
         REPORT_B = '''
  _____________________________  REPORT  ________________________________________ 
 

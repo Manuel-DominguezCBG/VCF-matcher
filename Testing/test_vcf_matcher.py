@@ -104,9 +104,7 @@ def test_concatenate_samples():
 
 data_to_test_5 = test_concatenate_samples()
 
-# 373978487
 
-print(match_variants(data_to_test_5))
 
 def test_match_variants():
     '''
@@ -115,9 +113,64 @@ def test_match_variants():
     1.12026355A.C   0/1
     3.52410008G.C   0/0
     7.810263C.T     0/0
-    22.26860269G.C  0/1
+    22.26860269G.C  1/1
     X.38145690TCCTTCCTCCTCTTCCCCCTCC.T 0/0
     '''
     data_to_test_6 = match_variants(data_to_test_5)
+
+    return data_to_test_6
+
     assert data_to_test_6.loc[data_to_test_6['CHROMPOSREFALT'] == "1.12026355A.C", 'Sample1'].item() == "0/1"
     assert data_to_test_6.loc[data_to_test_6['CHROMPOSREFALT'] == "1.12026355A.C", 'Sample2'].item() == "0/1"
+
+    assert data_to_test_6.loc[data_to_test_6['CHROMPOSREFALT'] == "3.52410008G.C", 'Sample1'].item() == "0/0"
+    assert data_to_test_6.loc[data_to_test_6['CHROMPOSREFALT'] == "3.52410008G.C", 'Sample2'].item() == "0/0"
+
+    assert data_to_test_6.loc[data_to_test_6['CHROMPOSREFALT'] == "7.810263C.T", 'Sample1'].item() == "0/0"
+    assert data_to_test_6.loc[data_to_test_6['CHROMPOSREFALT'] == "7.810263C.T", 'Sample2'].item() == "0/0"
+
+    assert data_to_test_6.loc[data_to_test_6['CHROMPOSREFALT'] == "22.26860269G.C", 'Sample1'].item() == "1/1"
+    assert data_to_test_6.loc[data_to_test_6['CHROMPOSREFALT'] == "22.26860269G.C", 'Sample2'].item() == "1/1"
+
+    assert data_to_test_6.loc[data_to_test_6['CHROMPOSREFALT'] == "X.38145690TCCTTCCTCCTCTTCCCCCTCC.T", 'Sample1'].item() == "0/0"
+    assert data_to_test_6.loc[data_to_test_6['CHROMPOSREFALT'] == "X.38145690TCCTTCCTCCTCTTCCCCCTCC.T", 'Sample2'].item() == "0/0"
+
+data_to_test_7 = test_match_variants()
+data_to_test_7["Matches"] = np.where(data_to_test_7["Sample1"] == data_to_test_7["Sample2"], True, False)
+data_to_test_7.columns = ['CHROMPOSREFALT',os.path.basename(NAME_FILE_1),os.path.basename(NAME_FILE_1),"Matches" ]
+
+
+
+
+
+def test_count_hom_het_variants():
+    '''
+    In sample 373978487 there is only one heterozigous, the rest of the variants are homozigous
+    I have done this manually
+    ''' 
+    data_to_test_7['Hom/het'] = count_hom_het_variants(data_to_test_7)
+
+    assert data_to_test_7['Hom/het'].value_counts().get("Hom", 0) == 1341
+    assert data_to_test_7['Hom/het'].value_counts().get("Het", 0) == 1
+    return data_to_test_7
+
+
+data_to_test_8 = test_count_hom_het_variants()
+
+
+
+def test_count_and_report():
+    
+    r4,r5,r6,r7,r8,r9 = count_and_report(data_to_test_7)
+    assert r4 == 1342 # because we are testing the same vcf file twice
+                      # the number of variant with the same posotion is equal to the total
+                      # number of variants 
+    assert r5 == 1341 # 1342 - 1 heterozigous
+    assert r6 == 1    # I have create only one heterozygous
+    assert r7 == 0    # 0 positions with different genotype
+    assert r8 == 1342 # Total number of variants
+    assert r9 == 1.0  # Percentage in common is 100%
+
+
+# 373978487
+

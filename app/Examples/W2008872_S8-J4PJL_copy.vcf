@@ -1,0 +1,53 @@
+##fileformat=VCFv4.1
+##FORMAT=<ID=GQX,Number=1,Type=Integer,Description="Minimum of {Genotype quality assuming variant position,Genotype quality assuming non-variant position}">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=GQ,Number=1,Type=Integer,Description="Genotype Quality">
+##FORMAT=<ID=AD,Number=.,Type=Integer,Description="Allele Depth">
+##FORMAT=<ID=VF,Number=1,Type=Float,Description="Variant Frequency">
+##FORMAT=<ID=NL,Number=1,Type=Integer,Description="Applied BaseCall Noise Level">
+##FORMAT=<ID=SB,Number=1,Type=Float,Description="StrandBias Score">
+##INFO=<ID=TI,Number=.,Type=String,Description="Transcript ID">
+##INFO=<ID=GI,Number=.,Type=String,Description="Gene ID">
+##INFO=<ID=EXON,Number=0,Type=Flag,Description="Exon Region">
+##INFO=<ID=FC,Number=.,Type=String,Description="Functional Consequence">
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">
+##FILTER=<ID=LowVariantFreq,Description="Low variant frequency < 0.01">
+##FILTER=<ID=LowGQ,Description="GQ below < 20.00">
+##FILTER=<ID=R8,Description="IndelRepeatLength is greater than 8">
+##FILTER=<ID=LowDP,Description="Low coverage (DP tag), therefore no genotype called">
+##FILTER=<ID=SB,Description="Variant strand bias too high">
+##annotator=MARS
+##fileDate=20200712
+##source=CallSomaticVariants 3.5.2.1
+##CallSomaticVariants_cmdline=" -B D:\Illumina\MiSeqAnalysis\200710_M01875_0593_000000000-J4PJL\Data\Intensities\BaseCalls\Alignment -g [C:\Illumina\MiSeq Reporter\Genomes\Homo_sapiens\UCSC\hg19\Sequence\WholeGenomeFASTA,] -f 0.01 -fo False -b 20 -q 100 -c 10 -s 0.5 -a 20 -F 20 -gVCF True -i true -r D:\Illumina\MiSeqAnalysis\200710_M01875_0593_000000000-J4PJL"
+##reference=C:\Illumina\MiSeq Reporter\Genomes\Homo_sapiens\UCSC\hg19\Sequence\WholeGenomeFASTA\genome.fa
+##contig=<ID=chr1,length=249250621>
+##contig=<ID=chr2,length=243199373>
+##contig=<ID=chr3,length=198022430>
+##contig=<ID=chr4,length=191154276>
+##contig=<ID=chr5,length=180915260>
+##contig=<ID=chr7,length=159138663>
+##contig=<ID=chr8,length=146364022>
+##contig=<ID=chr9,length=141213431>
+##contig=<ID=chr10,length=135534747>
+##contig=<ID=chr11,length=135006516>
+##contig=<ID=chr12,length=133851895>
+##contig=<ID=chr13,length=115169878>
+##contig=<ID=chr15,length=102531392>
+##contig=<ID=chr17,length=81195210>
+##contig=<ID=chr18,length=78077248>
+##contig=<ID=chr19,length=59128983>
+##contig=<ID=chr20,length=63025520>
+##contig=<ID=chr21,length=48129895>
+##contig=<ID=chr22,length=51304566>
+##contig=<ID=chrX,length=155270560>
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	W2008872	Manuel
+chr1	36932417	.	C	T	48.00	PASS	DP=1618;TI=NM_172313,NM_156039,NM_000760;GI=CSF3R,CSF3R,CSF3R;FC=Synonymous_Q684Q,Synonymous_Q711Q,Synonymous_Q684Q;EXON	GT:GQ:AD:VF:NL:SB:GQX	0/1:48:1582,36:0.99:20:-0.0009:48	0/1:48:1582,36:0.0222:20:-0.0009:48
+chr1	36933198	.	G	T	100.00	PASS	DP=513;TI=NM_172313,NM_156039,NM_000760;GI=CSF3R,CSF3R,CSF3R;FC=Missense_T640N,Missense_T640N,Missense_T640N;EXON	GT:GQ:AD:VF:NL:SB:GQX	0/1:100:410,103:0.8:20:-100.0000:100	0/1:48:1582,36:0.0222:20:-0.0009:48
+chr1	36933569	.	A	G	100.00	PASS	DP=1154;TI=NM_172313,NM_156039,NM_000760;GI=CSF3R,CSF3R,CSF3R;FC=Silent,Silent,Silent	GT:GQ:AD:VF:NL:SB:GQX	0/1:100:1093,59:0.0511:20:-0.0236:100	0/1:48:1582,36:0.99:20:-0.0009:48
+chr1	36933574	.	T	G	100.00	PASS	DP=1236;TI=NM_172313,NM_156039,NM_000760;GI=CSF3R,CSF3R,CSF3R;FC=Silent,Silent,Silent	GT:GQ:AD:VF:NL:SB:GQX	0/1:100:1114,116:0.0939:20:-0.0001:100	0/1:48:1582,36:0.87:20:-0.0009:48
+chr1	36933576	.	T	G	23.00	PASS	DP=1171;TI=NM_172313,NM_156039,NM_000760;GI=CSF3R,CSF3R,CSF3R;FC=Silent,Silent,Silent	GT:GQ:AD:VF:NL:SB:GQX	0/1:23:1143,22:0.0188:20:0.0000:23	0/1:48:1582,36:0.87:20:-0.0009:48
+chr1	43815071	.	T	G	31.00	PASS	DP=1018;TI=NM_005373;GI=MPL;FC=Silent	GT:GQ:AD:VF:NL:SB:GQX	0/1:31:989,22:0.0216:20:0.0000:31	0/1:48:1582,36:0.0222:20:-0.0009:48
+chr1	43815120	.	A	C	21.00	PASS	DP=1010;TI=NM_005373;GI=MPL;FC=Silent	GT:GQ:AD:VF:NL:SB:GQX	0/1:21:984,19:0.0188:20:0.0000:21	0/1:48:1582,36:0.0222:20:-0.0009:48
+chr2	25463483	rs2289195	G	A	100.00	PASS	DP=1943;TI=NM_153759,NM_022552,NM_175629;GI=DNMT3A,DNMT3A,DNMT3A;FC=Silent,Silent,Silent	GT:GQ:AD:VF:NL:SB:GQX	99/1:100:1078,861:0.4431:20:-100.0000:100	0/1:48:1582,36:0.87:20:-0.0009:48
+

@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 
 # Import all functions from run.py
-from VCF_matcher.app.run import * 
+from app.run import * 
 
 
 NAME_FILE_1 = "./test_sample.vcf"

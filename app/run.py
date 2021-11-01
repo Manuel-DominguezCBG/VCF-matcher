@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 '''
 Created on 07/09/2021
-
 @author: manuel.dominguezbecerra@nhs.net
-
 '''
 
 # Import libraries
@@ -11,18 +9,15 @@ import os
 import argparse
 import pandas as pd
 import numpy as np
+import sys
 
-# To allow the user to introduce the file after running "python run.ppy"
-
-# Example:    python run.py --vcf1 /path/file_name1 --vcf2 /path/file_name2
-
-   ### 1. Load the files
+### 1. Load the files
 
 # Take only the data contains in the body of the vcf files.
 
 def load_sample (Name_file):
     '''
-    Take the header of the body of the CSV file
+    Take the header and the body of the CSV file. Ignore metada.
     '''
     with open(Name_file, 'r') as f:
         for line in f:
@@ -127,13 +122,24 @@ def count_and_report(data):
 if __name__ == "__main__":
     # execute only if run as a script
 
+    # To allow the user to introduce the file after running "python run.ppy"
+
+    # Example:    python run.py --vcf1 /path/file_name1 --vcf2 /path/file_name2
+
     # Enter the path/file names
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--vcf1', type=str, required=True)
-    parser.add_argument('--vcf2', type=str, required=True)
+
+    # Create the parser
+    parser = argparse.ArgumentParser(description="Compare 2 VCF files and return the number of common variants that genotype match. Full documentation here: https://github.com/Manuel-DominguezCBG/VCF-matcher")
+
+    # Add the arguments
+    parser.add_argument('vcf1',metavar="vcf1", type=str, help="First VCF input. Eg.: PATH/filename.vcf")
+    parser.add_argument('vcf2',metavar="vcf2", type=str, help="Second VCF input, Eg.: PATH/filename.vcf")
+ 
+    # Execute the parse_args() methods
     args = parser.parse_args()
-    NAME_FILE_1 = args.vcf1
+    NAME_FILE_1 = args.vcf1 
     NAME_FILE_2 = args.vcf2
+
 
     # Load the files
     dataA = load_sample(NAME_FILE_1)

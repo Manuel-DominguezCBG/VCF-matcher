@@ -129,7 +129,7 @@ if __name__ == "__main__":
     # Enter the path/file names
 
     # Create the parser
-    parser = argparse.ArgumentParser(description="Compare 2 VCF files and return the number of common variants that genotype match. Full documentation here: https://github.com/Manuel-DominguezCBG/VCF-matcher")
+    parser = argparse.ArgumentParser(description="Compare 2 VCF files and return the number of common variants that genotype match. Full documentation here:")
 
     # Add the arguments
     parser.add_argument('vcf1',metavar="vcf1", type=str, help="First VCF input. Eg.: PATH/filename.vcf")

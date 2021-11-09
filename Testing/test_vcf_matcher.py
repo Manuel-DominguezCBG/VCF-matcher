@@ -207,7 +207,7 @@ def test_count_and_report():
 
 
 
-# Here I test the VF filter using a second vcf file I have created
+# Here I test the VF filter using a second vcf file I have created.
 
 
 
@@ -219,8 +219,12 @@ data_VF,Name_sample_1 = take_sample(data_VF,NAME_FILE_2)
 
 def test_filter_3():
     '''
-    There are 8 variants. 6 PASS VF>0.4, 1 PASS VF<0.4, 1 lowMQ VF>0.4
+    There are 8 variants in to_test_VF.vcf.
+    6 PASS VF>0.4
+    1 PASS VF<0.4
+    1 lowMQ VF>0.4
     So, the filter_1 should report 7 because there is only one lowMQ variant
+    and filter_2 should report 6  (8-1-1 =6)
     '''
     PASS_variants = filter_1(data_VF)
     assert len(PASS_variants) == 7
@@ -228,4 +232,3 @@ def test_filter_3():
     PASS_FV_variants = filter_2(PASS_variants)
     assert len(PASS_FV_variants) == 6
 
-#373978487
